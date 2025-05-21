@@ -25,29 +25,31 @@ export function Signin() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
   const toast = useToast();
 
-  const { sigIn } = useAuth()
+  const { sigIn } = useAuth();
 
   const { control, handleSubmit, formState: { errors } } = useForm<FormData>();
 
   function handleNewAccount() {
-    navigation.navigate("signUp")
+    navigation.navigate("signUp");
   }
 
   async function handleSignIn({ email, password }: FormData) {
     try {
       setIsLoading(true);
-      await sigIn(email, password)
-    }catch (error) {
+      await sigIn(email, password);
+    } catch (error) {
       setIsLoading(false);
       const isAppError = error instanceof AppError;
 
-      const title = isAppError ? error.message : 'Não foi possível entrar, tente novamente mais tarde'
+      const title = isAppError
+        ? error.message
+        : 'Não foi possível entrar, tente novamente mais tarde';
 
-    toast.show({
-      title,
-      placement: 'top',
-      bgColor: 'red.500'
-    })
+      toast.show({
+        title,
+        placement: 'top',
+        bgColor: 'red.600'
+      });
     }
   }
 
@@ -64,18 +66,18 @@ export function Signin() {
 
         <Center my={24}>
           <LogoSvg />
-          <Text color="gray.100" fontSize="sm">
+          <Text color="gray.300" fontSize="sm">
             Treine sua mente e seu corpo
           </Text>
         </Center>
 
         <Center>
-          <Heading color="gray.100" fontSize="xl" mb={6} fontFamily="heading">
+          <Heading color="green.500" fontSize="xl" mb={6} fontFamily="heading">
             Acesse sua conta
           </Heading>
         </Center>
 
-        <Controller 
+        <Controller
           control={control}
           name="email"
           rules={{ required: 'Informe o e-mail' }}
@@ -90,34 +92,38 @@ export function Signin() {
           )}
         />
 
-        <Controller 
+        <Controller
           control={control}
           name="password"
           rules={{ required: 'Informe a senha' }}
           render={({ field: { onChange } }) => (
-            <Input 
-              placeholder="Senha" 
-              secureTextEntry 
+            <Input
+              placeholder="Senha"
+              secureTextEntry
               onChangeText={onChange}
               errorMessage={errors.password?.message}
             />
           )}
         />
 
-        <Button 
-          onPress={handleSubmit(handleSignIn)} 
-          title="Acessar" 
+        <Button
+          onPress={handleSubmit(handleSignIn)}
+          title="Acessar"
           isLoading={isLoading}
+          bg="green.500"
+          _pressed={{ bg: 'green.600' }}
         />
 
         <Center mt={24}>
-          <Text color="gray.100" fontSize="sm" mb={3} fontFamily="body">
+          <Text color="gray.300" fontSize="sm" mb={3} fontFamily="body">
             Ainda não tem acesso?
           </Text>
 
-          <Button 
-            title="Criar conta" 
-            variant="outline" 
+          <Button
+            title="Criar conta"
+            variant="outline"
+            borderColor="green.500"
+            _text={{ color: "green.500" }}
             onPress={handleNewAccount}
           />
         </Center>
